@@ -34,3 +34,18 @@ jobs:
         run: |
           Remove-Item -Recurse -Force build -ErrorAction SilentlyContinue
           Remove-Item -Recurse -Force dist -ErrorAction SilentlyContinue
+          Remove-Item -Force main.spec -ErrorAction SilentlyContinue
+
+      # 5️⃣ Build standalone EXE with explicit name
+      - name: Build EXE
+        shell: cmd
+        run: |
+          pyinstaller --onefile --noconsole main.py --name AdvancedPDFTool --hidden-import=pkgutil --hidden-import=encodings --hidden-import=PyQt6.sip --hidden-import=fitz
+          dir dist
+
+      # 6️⃣ Upload EXE artifact
+      - name: Upload EXE artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AdvancedPDFTool_EXE
+          path: dist/AdvancedPDFTool.exe
