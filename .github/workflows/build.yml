@@ -25,21 +25,3 @@ jobs:
           pip install pyinstaller
 
       - name: Clean previous builds
-        run: |
-          rmdir /S /Q build || exit 0
-          rmdir /S /Q dist || exit 0
-          del main.spec || exit 0
-
-      - name: Build EXE with hidden imports
-        run: |
-          pyinstaller --onefile --noconsole main.py \
-                      --hidden-import=pkgutil \
-                      --hidden-import=encodings \
-                      --hidden-import=PyQt6.sip \
-                      --hidden-import=fitz
-
-      - name: Upload EXE artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: AdvancedPDFTool_EXE
-          path: dist/main.exe
